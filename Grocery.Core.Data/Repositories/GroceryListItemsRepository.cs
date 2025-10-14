@@ -14,7 +14,7 @@ namespace Grocery.Core.Data.Repositories
                     Id INTEGER PRIMARY KEY AUTOINCREMENT,
                     GroceryListId INTEGER NOT NULL,
                     ProductId INTEGER NOT NULL,
-                    Amount INTEGER NOT NULL
+                    Quantity INTEGER NOT NULL
                 );
             ");
         }
@@ -26,7 +26,7 @@ namespace Grocery.Core.Data.Repositories
 
             using (var command = Connection.CreateCommand())
             {
-                command.CommandText = "SELECT Id, GroceryListId, ProductId, Amount FROM GroceryListItem";
+                command.CommandText = "SELECT Id, GroceryListId, ProductId, Quantity FROM GroceryListItem";
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
@@ -51,7 +51,7 @@ namespace Grocery.Core.Data.Repositories
 
             using (var command = Connection.CreateCommand())
             {
-                command.CommandText = "SELECT Id, GroceryListId, ProductId, Amount FROM GroceryListItem WHERE GroceryListId = @GroceryListId";
+                command.CommandText = "SELECT Id, GroceryListId, ProductId, Quantity FROM GroceryListItem WHERE GroceryListId = @GroceryListId";
                 command.Parameters.AddWithValue("@GroceryListId", id);
                 using (var reader = command.ExecuteReader())
                 {
@@ -76,7 +76,7 @@ namespace Grocery.Core.Data.Repositories
 
             using (var command = Connection.CreateCommand())
             {
-                command.CommandText = @"INSERT INTO GroceryListItem (GroceryListId, ProductId, Amount) 
+                command.CommandText = @"INSERT INTO GroceryListItem (GroceryListId, ProductId, Quantity) 
                                         VALUES (@GroceryListId, @ProductId, @Amount);
                                         SELECT last_insert_rowid();";
                 command.Parameters.AddWithValue("@GroceryListId", item.GroceryListId);
@@ -114,7 +114,7 @@ namespace Grocery.Core.Data.Repositories
 
             using (var command = Connection.CreateCommand())
             {
-                command.CommandText = "SELECT Id, GroceryListId, ProductId, Amount FROM GroceryListItems WHERE Id = @Id";
+                command.CommandText = "SELECT Id, GroceryListId, ProductId, Quantity FROM GroceryListItems WHERE Id = @Id";
                 command.Parameters.AddWithValue("@Id", id);
 
                 using (var reader = command.ExecuteReader())
@@ -144,13 +144,13 @@ namespace Grocery.Core.Data.Repositories
                     UPDATE GroceryListItems
                     SET GroceryListId = @GroceryListId,
                         ProductId = @ProductId,
-                        Amount = @Amount
+                        Quantity = @Quantity
                     WHERE Id = @Id";
 
                 command.Parameters.AddWithValue("@GroceryListId", item.GroceryListId);
                 command.Parameters.AddWithValue("@ProductId", item.ProductId);
                 command.Parameters.AddWithValue("@Id", item.Id);
-                command.Parameters.AddWithValue("@Amount", item.Amount);
+                command.Parameters.AddWithValue("@Quantity", item.Amount);
 
                 int rows = command.ExecuteNonQuery();
                 CloseConnection();
