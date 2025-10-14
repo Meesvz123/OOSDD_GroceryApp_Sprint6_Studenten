@@ -23,6 +23,7 @@ namespace Grocery.Core.Data.Repositories
         {
             var items = new List<GroceryListItem>();
             OpenConnection();
+            //test
 
             using (var command = Connection.CreateCommand())
             {
